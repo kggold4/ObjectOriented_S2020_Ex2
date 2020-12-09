@@ -37,6 +37,40 @@ public class Algo_DWGraph implements dw_graph_algorithms {
     // constructor by given a graph
     public Algo_DWGraph(directed_weighted_graph graph) { this.init(graph); }
 
+    // constructor by given a json string
+    public Algo_DWGraph(String json_string) {
+
+        // creates new Gson object and a new graph
+        Gson gsonObject = new Gson();
+        directed_weighted_graph new_graph = new DWGraph_DS();
+        Type type = new TypeToken<JsonObject>() {}.getType();
+
+        // gets the graph as gson objects ans nodes and edges as json array from the json file
+        JsonObject graph = gsonObject.fromJson(json_string, type);
+        JsonArray nodes = graph.get("Nodes").getAsJsonArray();
+        JsonArray edges = graph.get("Edges").getAsJsonArray();
+
+        // getting nodes from json file
+        for (com.google.gson.JsonElement node : nodes) {
+            String[] str_nodes = node.getAsJsonObject().get("pos").getAsString().split(",");
+            node_data n = new NodeData(node.getAsJsonObject().get("id").getAsInt());
+            n.setLocation(new GEOLocation(Double.parseDouble(str_nodes[0]),
+                    Double.parseDouble(str_nodes[1]),
+                    Double.parseDouble(str_nodes[2])));
+            new_graph.addNode(n);
+        }
+
+        // getting edges from json
+        for(JsonElement edge : edges) {
+            new_graph.connect(edge.getAsJsonObject().get("src").getAsInt(),
+                    edge.getAsJsonObject().get("dest").getAsInt(),
+                    edge.getAsJsonObject().get("w").getAsDouble());
+        }
+
+        // initialize graph
+        init(new_graph);
+    }
+
     // initialize a new graph to the graph algorithms
     @Override
     public void init(directed_weighted_graph g) {
@@ -83,6 +117,7 @@ public class Algo_DWGraph implements dw_graph_algorithms {
     @Override
     public boolean isConnected() {
 
+        // if the graph as been change after initialize it to the graph algorithms
         if(this.current_mc != this.graph.getMC()) this.init(this.graph);
 
         // if there is less than 2 nodes the graph is connected
@@ -302,24 +337,24 @@ public class Algo_DWGraph implements dw_graph_algorithms {
                     JsonObject current_node = new JsonObject();
                     if(node.getLocation() != null) {
                         String location = node.getLocation().x() + ", " + node.getLocation().y() + ", " + node.getLocation().z();
-                        current_node.addProperty("position", location);
-                    } else current_node.addProperty("position", "null");
-                    current_node.addProperty("node_id", node.getKey());
+                        current_node.addProperty("pos", location);
+                    } else current_node.addProperty("pos", "null");
+                    current_node.addProperty("id", node.getKey());
                     nodes.add(current_node);
 
                     // save edges to json array
                     for(edge_data edge : this.graph.getE(node.getKey())) {
                         JsonObject current_edge = new JsonObject();
-                        current_edge.addProperty("source", edge.getSrc());
-                        current_edge.addProperty("weight", edge.getWeight());
-                        current_edge.addProperty("destination", edge.getDest());
+                        current_edge.addProperty("src", edge.getSrc());
+                        current_edge.addProperty("w", edge.getWeight());
+                        current_edge.addProperty("dest", edge.getDest());
                         edges.add(current_edge);
                     }
                 }
 
                 // adding nodes and edges json arrays to json object
-                json.add("nodes", nodes);
-                json.add("edges", edges);
+                json.add("Nodes", nodes);
+                json.add("Edges", edges);
 
                 // trying to save the json objects to a file
                 try {
@@ -365,13 +400,13 @@ public class Algo_DWGraph implements dw_graph_algorithms {
 
                 // gets the graph as gson objects ans nodes and edges as json array from the json file
                 JsonObject graph = gsonObject.fromJson(reader, type);
-                JsonArray nodes = graph.get("nodes").getAsJsonArray();
-                JsonArray edges = graph.get("edges").getAsJsonArray();
+                JsonArray nodes = graph.get("Nodes").getAsJsonArray();
+                JsonArray edges = graph.get("Edges").getAsJsonArray();
 
                 // getting nodes from json file
                 for (com.google.gson.JsonElement node : nodes) {
-                    String[] str_nodes = node.getAsJsonObject().get("position").getAsString().split(",");
-                    node_data n = new NodeData(node.getAsJsonObject().get("node_id").getAsInt());
+                    String[] str_nodes = node.getAsJsonObject().get("pos").getAsString().split(",");
+                    node_data n = new NodeData(node.getAsJsonObject().get("id").getAsInt());
                     n.setLocation(new GEOLocation(Double.parseDouble(str_nodes[0]),
                             Double.parseDouble(str_nodes[1]),
                             Double.parseDouble(str_nodes[2])));
@@ -380,9 +415,9 @@ public class Algo_DWGraph implements dw_graph_algorithms {
 
                 // getting edges from json
                 for(JsonElement edge : edges) {
-                    this.graph.connect(edge.getAsJsonObject().get("source").getAsInt(),
-                            edge.getAsJsonObject().get("destination").getAsInt(),
-                            edge.getAsJsonObject().get("weight").getAsDouble());
+                    this.graph.connect(edge.getAsJsonObject().get("src").getAsInt(),
+                            edge.getAsJsonObject().get("dest").getAsInt(),
+                            edge.getAsJsonObject().get("w").getAsDouble());
                 }
 
                 // initialize graph

@@ -60,8 +60,6 @@ public class Arena {
 	}
 	public List<CL_Agent> getAgents() {return _agents;}
 	public List<CL_Pokemon> getPokemons() {return _pokemons;}
-
-	
 	public directed_weighted_graph getGraph() {
 		return _gg;
 	}
@@ -77,10 +75,10 @@ public class Arena {
 		ArrayList<CL_Agent> ans = new ArrayList<CL_Agent>();
 		try {
 			JSONObject ttt = new JSONObject(aa);
-			JSONArray ags = ttt.getJSONArray("Agents");
-			for(int i=0;i<ags.length();i++) {
-				CL_Agent c = new CL_Agent(gg,0);
-				c.update(ags.get(i).toString());
+			JSONArray agents = ttt.getJSONArray("Agents");
+			for(int i = 0; i < agents.length(); i++) {
+				CL_Agent c = new CL_Agent(gg, 0);
+				c.update(agents.get(i).toString());
 				ans.add(c);
 			}
 			//= getJSONArray("Agents");
