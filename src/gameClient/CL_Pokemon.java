@@ -12,13 +12,13 @@ public class CL_Pokemon {
 	private double min_dist;
 	private int min_ro;
 	private double _speed;
-	
-	public CL_Pokemon(Point3D p, int t, double v, double s, edge_data e) {
-		this._type = t;
-		this._speed = s;
-		this._value = v;
+
+	public CL_Pokemon(Point3D point, int type, double value, double speed, edge_data e) {
+		this._type = type;
+		this._speed = speed;
+		this._value = value;
 		set_edge(e);
-		this._pos = p;
+		this._pos = point;
 		this.min_dist = -1;
 		this.min_ro = -1;
 	}
@@ -34,7 +34,6 @@ public class CL_Pokemon {
 		}
 		return ans;
 	}
-	public String toString() {return "F:{v="+_value+", t="+_type+"}";}
 
 	public edge_data get_edge() {
 		return _edge;
@@ -47,6 +46,8 @@ public class CL_Pokemon {
 	public Point3D getLocation() {
 		return _pos;
 	}
+
+	public edge_data getEdge() { return this._edge; }
 
 	public int getType() {return _type;}
 
@@ -69,4 +70,6 @@ public class CL_Pokemon {
 	public void setMin_ro(int min_ro) {
 		this.min_ro = min_ro;
 	}
+
+	public String toString() {return "F:{v="+_value+", t="+_type+"}";}
 }
