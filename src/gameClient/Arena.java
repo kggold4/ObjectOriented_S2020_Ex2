@@ -85,8 +85,39 @@ public class Arena {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return ans;
+	 	return ans;
 	}
+
+	/*// when the game starting set the agents in the graph
+	public int[] StartPositionOfAgents(directed_weighted_graph g) {
+		for (int i = 0; i < _pokemons.size(); i++) {
+			updateEdge(_pokemons.get(i), g);
+		}
+		//bubbleSort(_pokemons);
+
+		int[] arr = {0, 0, 0};
+
+		arr[0] = _pokemons.get(0).get_edge().getSrc();
+		arr[1] = _pokemons.get(0).get_edge().getDest();
+		arr[2] = (int) _pokemons.get(0).getValue();
+		_pokemons.remove(0);
+
+		return arr;
+	}*/
+
+//	private static void bubbleSort(List<CL_Pokemon> cl) {
+//		int n = cl.size();
+//		for (int i = 0; i < n - 1; i++) {
+//			for (int j = 0; j < n - i - 1; j++) {
+//				if (cl.get(j).getValue() < cl.get(j + 1).getValue()) {
+//					CL_Pokemon temp = cl.get(j);
+//					cl.set(j, cl.get(j + 1));
+//					cl.set(j + 1, temp);
+//				}
+//			}
+//		}
+//	}
+
 	public static ArrayList<CL_Pokemon> json2Pokemons(String fs) {
 		ArrayList<CL_Pokemon> ans = new  ArrayList<CL_Pokemon>();
 		try {
@@ -99,6 +130,7 @@ public class Arena {
 				double v = pk.getDouble("value");
 				//double s = 0;//pk.getDouble("speed");
 				String p = pk.getString("pos");
+				//System.out.println("pk: !!!: " + pp);
 				CL_Pokemon f = new CL_Pokemon(new Point3D(p), t, v, 0, null);
 				ans.add(f);
 			}
@@ -120,9 +152,10 @@ public class Arena {
 		}
 	}
 
-	private static boolean isOnEdge(geo_location p, geo_location src, geo_location dest ) {
+	public static boolean isOnEdge(geo_location p, geo_location src, geo_location dest ) {
 
 		boolean ans = false;
+
 		double dist = src.distance(dest);
 		double d1 = src.distance(p) + p.distance(dest);
 		if(dist>d1-EPS2) {ans = true;}

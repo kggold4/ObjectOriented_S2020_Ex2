@@ -21,7 +21,7 @@ public class Ex2_Client implements Runnable{
 	
 	@Override
 	public void run() {
-		int scenario_num = 11;
+		int scenario_num = 0;
 		game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 	//	int id = 999;
 	//	game.login(id);
@@ -51,6 +51,7 @@ public class Ex2_Client implements Runnable{
 		System.out.println(res);
 		System.exit(0);
 	}
+
 	/** 
 	 * Moves each of the agents along the edge,
 	 * in case the agent is on a node the next destination (next edge) is chosen (randomly).
@@ -79,6 +80,7 @@ public class Ex2_Client implements Runnable{
 			}
 		}
 	}
+
 	/**
 	 * a very simple random walk implementation!
 	 * @param g
