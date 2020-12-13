@@ -43,9 +43,7 @@ public class CL_Pokemon {
 		this._edge = _edge;
 	}
 
-	public Point3D getLocation() {
-		return _pos;
-	}
+	public Point3D getLocation() { return _pos; }
 
 	public edge_data getEdge() { return this._edge; }
 
