@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Algo_DWGraphTest {
+class DWGraph_AlgoTest {
 
     private static int limit = 1000000;
 
@@ -33,7 +33,7 @@ class Algo_DWGraphTest {
         }
 
         // create new graph algorithm
-        dw_graph_algorithms ga = new Algo_DWGraph();
+        dw_graph_algorithms ga = new DWGraph_Algo();
 
         // initialize g0 to ga
         ga.init(g0);
@@ -80,7 +80,7 @@ class Algo_DWGraphTest {
         }
 
         // create new graph algorithm
-        dw_graph_algorithms ga = new Algo_DWGraph(g0);
+        dw_graph_algorithms ga = new DWGraph_Algo(g0);
 
         // checking if the init graph is equal to g0
         assertEquals(g0, ga.getGraph());
@@ -101,7 +101,7 @@ class Algo_DWGraphTest {
         }
 
         // create new graph algorithm
-        dw_graph_algorithms ga = new Algo_DWGraph(g0);
+        dw_graph_algorithms ga = new DWGraph_Algo(g0);
 
         // getting a copy of g0
         directed_weighted_graph g1 = ga.copy();
@@ -128,7 +128,7 @@ class Algo_DWGraphTest {
         }
 
         // create graph algorithms for g0 graph
-        dw_graph_algorithms ga = new Algo_DWGraph(g0);
+        dw_graph_algorithms ga = new DWGraph_Algo(g0);
 
 
         // connection every node in the graph to his neighbor
@@ -189,7 +189,7 @@ class Algo_DWGraphTest {
         node_data n5 = new NodeData(5);
 
         directed_weighted_graph g = new DWGraph_DS();
-        dw_graph_algorithms ga = new Algo_DWGraph(g);
+        dw_graph_algorithms ga = new DWGraph_Algo(g);
 
         g.addNode(n0);g.addNode(n1);g.addNode(n2);g.addNode(n3);g.addNode(n4);g.addNode(n5);
 
@@ -220,7 +220,7 @@ class Algo_DWGraphTest {
         }
 
         // create graph algorithms for g0 graph
-        dw_graph_algorithms ga = new Algo_DWGraph(g0);
+        dw_graph_algorithms ga = new DWGraph_Algo(g0);
 
         // connection every node in the graph to his neighbor
         // [n0 -> n1], [n1 -> n2], [n2 -> n3],... [n(n-2) -> n(n-1)] // let n be limit
@@ -263,7 +263,7 @@ class Algo_DWGraphTest {
 
         // create graph and initialize to graph algorithms
         directed_weighted_graph g = new DWGraph_DS();
-        dw_graph_algorithms ga = new Algo_DWGraph(g);
+        dw_graph_algorithms ga = new DWGraph_Algo(g);
 
         // adding the nodes to the graph
         g.addNode(n0);
@@ -287,7 +287,7 @@ class Algo_DWGraphTest {
         ga.save("obj.json");
 
         // create a new graph algorithms and initialize a new graph from the file
-        dw_graph_algorithms gb = new Algo_DWGraph();
+        dw_graph_algorithms gb = new DWGraph_Algo();
         gb.load("obj.json");
 
         // checking if both graphs are equals

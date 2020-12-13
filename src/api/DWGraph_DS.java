@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * DWGraph_DS class represents a directional weighted graph implements directed_weighted_graph interface
+ * DWGraph_DS class represents a directional weighted graph implements directed_weighted_graph interface,
+ * @Author Kfir Goldfarb and Nadav Keysar
  */
 public class DWGraph_DS implements directed_weighted_graph, Serializable {
 

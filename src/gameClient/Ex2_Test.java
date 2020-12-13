@@ -1,7 +1,7 @@
 package gameClient;
 
 import Server.Game_Server_Ex2;
-import api.Algo_DWGraph;
+import api.DWGraph_Algo;
 import api.directed_weighted_graph;
 import api.dw_graph_algorithms;
 import api.game_service;
@@ -106,7 +106,7 @@ public class Ex2_Test implements Runnable {
 
         // getting the current graph and create new graph by the string _graph
         String string_graph = game.getGraph();
-        dw_graph_algorithms graph_algo = new Algo_DWGraph(string_graph);
+        dw_graph_algorithms graph_algo = new DWGraph_Algo(string_graph);
 
         // initialize graph
         this._graph = graph_algo.getGraph();

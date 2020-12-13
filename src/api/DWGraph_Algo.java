@@ -15,9 +15,10 @@ import java.util.*;
 
 /**
  * This Algo_DWGraph class implements the dw_graph_algorithms interface,
- * for executing the graph algorithms on DWGraph_DS graphs.
+ * for executing the graph algorithms on DWGraph_DS graphs,
+ * @Author Kfir Goldfarb and Nadav Keysar
  */
-public class Algo_DWGraph implements dw_graph_algorithms {
+public class DWGraph_Algo implements dw_graph_algorithms {
 
     // the graph the algorithms work on
     private directed_weighted_graph graph;
@@ -32,13 +33,13 @@ public class Algo_DWGraph implements dw_graph_algorithms {
     private int current_mc;
 
     // default constructor
-    public Algo_DWGraph() { this.init(new DWGraph_DS()); }
+    public DWGraph_Algo() { this.init(new DWGraph_DS()); }
 
     // constructor by given a graph
-    public Algo_DWGraph(directed_weighted_graph graph) { this.init(graph); }
+    public DWGraph_Algo(directed_weighted_graph graph) { this.init(graph); }
 
     // constructor by given a json string
-    public Algo_DWGraph(String json_string) {
+    public DWGraph_Algo(String json_string) {
 
         // creates new Gson object and a new graph
         Gson gsonObject = new Gson();
@@ -430,5 +431,4 @@ public class Algo_DWGraph implements dw_graph_algorithms {
         return false;
 
     }
-
 }

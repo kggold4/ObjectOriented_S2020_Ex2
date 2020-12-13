@@ -14,12 +14,13 @@ import java.util.List;
 
 /**
  * This class represents a multi Agents Arena which move on a graph - grabs Pokemons and avoid the Zombies.
- * @author boaz.benmoshe
+ * @author Kfir Goldfarb and Nadav Keysar
  */
 
 public class Arena {
 
-	public static final double EPS1 = 0.001, EPS2=EPS1*EPS1;
+	// epsilon for calculate some algorithms with geo locations
+	public static final double EPS1 = 0.001, EPS2 = EPS1 * EPS1;
 
 	// current level graph
 	private directed_weighted_graph graph;
@@ -48,24 +49,54 @@ public class Arena {
 	// number of pokemons in the game
 	private int numberOfPokemons;
 
+	/**
+	 * default constructor
+	 */
 	public Arena() {
 		this.info = new ArrayList<String>();
 	}
+
+	/**
+	 * constructor by given a graph, and lists of agents and pokemons
+	 */
 	public Arena(directed_weighted_graph graph, List<CL_Agent> agents, List<CL_Pokemon> pokemon) {
-		this.graph = graph;
-		this.setAgents(agents);
-		this.setPokemons(pokemon);
-	}
-	public void setPokemons(List<CL_Pokemon> f) {
-		this.pokemons = f;
+		this.info = new ArrayList<String>();
+		setGraph(graph);
+		setAgents(agents);
+		setPokemons(pokemon);
 	}
 
-	public void setAgents(List<CL_Agent> f) {
-		this.agents = f;
+	/**
+	 * setting the pokemons to the arena by given pokemons list
+	 * @param pks
+	 */
+	public void setPokemons(List<CL_Pokemon> pks) {
+		this.pokemons = pks;
 	}
 
-	public void setGraph(directed_weighted_graph g) {this.graph =g;}//init();}
+	/**
+	 * setting the agents to the arena by given agents list
+	 * @param ags
+	 */
+	public void setAgents(List<CL_Agent> ags) {
+		this.agents = ags;
+	}
 
+	/**
+	 * setting the graph to the arena by given graph
+	 * @param graph
+	 */
+	public void setGraph(directed_weighted_graph graph) { this.graph = graph; }
+
+	/**
+	 * setting to the arena info by given list of strings
+	 * @param info
+	 */
+	public void set_info(List<String> info) { this.info = info; }
+
+	/**
+	 * initialize function
+	 */
 	private void init() {
 		this.MIN = null; this.MAX = null;
 		double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
@@ -83,34 +114,57 @@ public class Arena {
 		MAX = new Point3D(x1+dx/10,y1+dy/10);
 
 	}
+
+	/**
+	 * return the agents list of the arena
+	 * @return
+	 */
 	public List<CL_Agent> getAgents() { return agents; }
 
+	/**
+	 * return the pokemons list of the arena
+	 * @return
+	 */
 	public List<CL_Pokemon> getPokemons() { return pokemons; }
 
+	/**
+	 * return the graph of the arena
+	 * @return
+	 */
 	public directed_weighted_graph getGraph() { return this.graph; }
 
+	/**
+	 * return the info as list of strings of the arena
+	 * @return
+	 */
 	public List<String> get_info() { return info; }
 
-	public void set_info(List<String> _info) { this.info = _info; }
-
-	////////////////////////////////////////////////////
-	public static List<CL_Agent> getAgents(String aa, directed_weighted_graph graph) {
+	/**
+	 * static function that gets a string in json format of agents and a graph,
+	 * and return a list of the agents objects
+	 * @param agentsString
+	 * @param graph
+	 * @return
+	 */
+	public static List<CL_Agent> getAgents(String agentsString, directed_weighted_graph graph) {
 		ArrayList<CL_Agent> ans = new ArrayList<CL_Agent>();
 		try {
-			JSONObject ttt = new JSONObject(aa);
-			JSONArray agents = ttt.getJSONArray("Agents");
-			for(int i = 0; i < agents.length(); i++) {
-				CL_Agent c = new CL_Agent(graph, 0);
-				c.update(agents.get(i).toString());
-				ans.add(c);
+			JSONObject agentJson = new JSONObject(agentsString);
+			JSONArray agentsArray = agentJson.getJSONArray("Agents");
+			for(int i = 0; i < agentsArray.length(); i++) {
+				CL_Agent agent = new CL_Agent(graph, 0);
+				agent.update(agentsArray.get(i).toString());
+				ans.add(agent);
 			}
-			//= getJSONArray("Agents");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		} catch (JSONException e) { e.printStackTrace(); }
 	 	return ans;
 	}
 
+	/**
+	 *
+	 * @param fs
+	 * @return
+	 */
 	public static ArrayList<CL_Pokemon> json2Pokemons(String fs) {
 		ArrayList<CL_Pokemon> ans = new  ArrayList<CL_Pokemon>();
 		try {
