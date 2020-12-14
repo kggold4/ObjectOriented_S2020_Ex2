@@ -20,7 +20,7 @@ import java.util.List;
 public class Arena {
 
 	// epsilon for calculate some algorithms with geo locations
-	public static final double EPS1 = 0.01, EPS2 = EPS1 * EPS1;
+	public static final double EPS1 = 0.001, EPS2 = EPS1 * EPS1;
 
 	// current level graph
 	private directed_weighted_graph graph;
