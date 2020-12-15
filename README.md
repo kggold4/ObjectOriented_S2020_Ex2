@@ -32,9 +32,9 @@ For the part 2 of this assignment we have the gameClient package for all classes
 also we have the util package with all the classes that represents a vectors points int the arena.
 
 ## Art
-the game players (agents) ![player](https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/player.png  = 250x250)
-pokemon 1 ![player](https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball1.png  = 250x250)
-pokemon 2 ![player](https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball2.png  = 250x250)
+the game players (agents) ![player](https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/player.png) {:height="50px" width="50px"}
+pokemon 1 ![player](https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball1.png) {:height="50px" width="50px"}
+pokemon 2 ![player](https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball2.png) {:height="50px" width="50px"}
 
 ## For clone down this repository
 ```
