@@ -2,7 +2,12 @@
 
 ### Authors: Kfir Goldfarb and Nadav Keysar
 
-This assignment have two parts:
+
+This project is for represents a game which is based on the application of a two-way weighted graph with different methods and algorithms,
+In this game we have to manage a group of agents whose goal is to collect as many pokemons as possible through one or more of your pokemon balls before time runs out.
+The more Pokemon you catch, the more points you will earn. The game is played on a changing game board. The game has slightly different scenarios, based on different graphs with different time limits, at different levels. The Pokémon remain static in their places and have different values. One Pokemon can be more expensive than the other. Agents can increase speed if they catch enough Pokemon. The game is played in four stages: choosing the stage of the agents' location to their place of origin. Starting the game Continuous management of the agents until the game is over.
+
+* This assignment have two parts:
 
 ## Part 1:
 
@@ -15,13 +20,10 @@ By part 1 graph data structure and graph algorithms build a client class that kn
 
 ## packages and classes
 
-פרויקט זה מייצג משחק שמבוסס על יישום גרף משוקלל דו כיווני עם שיטות ואלגוריתמים שונים.
-במשחק זה עלינו לנהל קבוצה של סוכנים שהמטרה שלהם היא לאסוף כמה שיותר פוקמונים דרך אחד או יותר מכדורי הפוקמונים שלך לפני שייגמר הזמן. ככל שנתפוס יותר פוקמונים כך תצברו יותר נקודות. המשחק מתנהל על לוח משחק משתנה. למשחק יש מעט תרחישים שונים, המבוססים על גרפים שונים עם מגבלות זמן שונות, ברמות שונות. הפוקמונים נשארים סטטיים במקומותיהם ובעלי ערכים שונים. פוקמון אחד יכול להיות יקר מהשני. הסוכנים יכולים להגביר את המהירות אם תופסים מספיק פוקמונים.
-המשחק מתנהל בארבעה שלבים:
-בחירת שלב
-מיקום הסוכנים למקום המוצא שלהם.
-התחלת המשחק
-ניהול מתמשך של הסוכנים עד שהמשחק יסתיים.
+For the part 1 of this assignment we have the api package for all interfaces and classes for build a directed weighted graph data structure and graph algorithms class, for more information about the interfaces and the classes see at the wiki page.
 
-יישום הפרויקט:
-גרף די אס-  מחלקב זו מיישמת גרף משוקלל מתמטי
+For the part 2 of this assignment we have the gameClient package for all classes for making Ex2 class play as client properly on the Pokémon game.
+also we have the util package with all the classes that represents a vectors points int the arena.
+
+## For clone down this repository
+$ git clone https://github.com/kggold4/ObjectOriented_S2020_Ex2.git

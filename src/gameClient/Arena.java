@@ -20,9 +20,9 @@ import java.util.List;
 
 public class Arena {
 	public static final double EPS1 = 0.001, EPS2 = EPS1 * EPS1;
-	private directed_weighted_graph _gg;
-	private List<CL_Agent> _agents;
-	private List<CL_Pokemon> _pokemons;
+	private directed_weighted_graph graph;
+	private List<CL_Agent> agents;
+	private List<CL_Pokemon> pokemons;
 	private List<String> info;
 	private long time;
 	private static Point3D MIN = new Point3D(0, 100, 0);
@@ -32,34 +32,30 @@ public class Arena {
 	private int grade, moves, game_level;
 
 	public Arena() {
-
-		info = new ArrayList<String>(4);
-		info.add(" ");
+		info = new ArrayList<String>();
 	}
 
 	private Arena(directed_weighted_graph g, List<CL_Agent> r, List<CL_Pokemon> p) {
-		_gg = g;
+		this.graph = g;
 		this.setAgents(r);
 		this.setPokemons(p);
 	}
 
-	public void setPokemons(List<CL_Pokemon> f) {
-		this._pokemons = f;
+	public void setPokemons(List<CL_Pokemon> pokemons) {
+		this.pokemons = pokemons;
 	}
 
-	public void setAgents(List<CL_Agent> f) {
-		this._agents = f;
+	public void setAgents(List<CL_Agent> agents) {
+		this.agents = agents;
 	}
 
-	public void setGraph(directed_weighted_graph g) {
-		this._gg = g;
-	}
+	public void setGraph(directed_weighted_graph graph) { this.graph = graph; }
 
 	private void init() {
 		MIN = null;
 		MAX = null;
 		double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
-		Iterator<node_data> iter = _gg.getV().iterator();
+		Iterator<node_data> iter = this.graph.getV().iterator();
 		while (iter.hasNext()) {
 			geo_location c = iter.next().getLocation();
 			if (MIN == null) {
@@ -81,25 +77,20 @@ public class Arena {
 	}
 
 	public List<CL_Agent> getAgents() {
-		return _agents;
+		return this.agents;
 	}
 
-	public List<CL_Pokemon> getPokemons() {
-		return _pokemons;
-	}
+	public List<CL_Pokemon> getPokemons() { return this.pokemons; }
 
 	public directed_weighted_graph getGraph() {
-		return _gg;
+		return this.graph;
 	}
 
 	public List<String> get_info() {
-		return info;
+		return this.info;
 	}
 
-	public void set_info(String s, int id) {
-		if (info.size() != id) info.remove(id);
-		info.add(id, s);
-	}
+	public void set_info(List<String> info) { this.info = info; }
 
 	////////////////////////////////////////////////////
 	public static List<CL_Agent> getAgents(String aa, directed_weighted_graph gg) {
@@ -161,9 +152,7 @@ public class Arena {
 		boolean ans = false;
 		double dist = src.distance(dest);
 		double d1 = src.distance(p) + p.distance(dest);
-		if (dist > d1 - EPS2) {
-			ans = true;
-		}
+		if(dist > d1 - EPS2) ans = true;
 		return ans;
 	}
 
@@ -176,12 +165,8 @@ public class Arena {
 	private static boolean isOnEdge(geo_location p, edge_data e, int type, directed_weighted_graph g) {
 		int src = g.getNode(e.getSrc()).getKey();
 		int dest = g.getNode(e.getDest()).getKey();
-		if (type < 0 && dest > src) {
-			return false;
-		}
-		if (type > 0 && src > dest) {
-			return false;
-		}
+		if (type < 0 && dest > src) return false;
+		if (type > 0 && src > dest) return false;
 		return isOnEdge(p, src, dest, g);
 	}
 
@@ -228,18 +213,12 @@ public class Arena {
 				y1 = y0;
 				first = false;
 			} else {
-				if (p.x() < x0) {
-					x0 = p.x();
-				}
-				if (p.x() > x1) {
-					x1 = p.x();
-				}
-				if (p.y() < y0) {
-					y0 = p.y();
-				}
-				if (p.y() > y1) {
-					y1 = p.y();
-				}
+
+				if (p.x() < x0) x0 = p.x();
+				if (p.x() > x1) x1 = p.x();
+				if (p.y() < y0) y0 = p.y();
+				if (p.y() > y1) y1 = p.y();
+
 			}
 		}
 		Range xr = new Range(x0, x1);
