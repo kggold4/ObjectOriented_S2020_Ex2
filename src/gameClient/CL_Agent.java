@@ -4,11 +4,14 @@ import api.*;
 import gameClient.util.Point3D;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class CL_Agent {
 	public static final double EPS = 0.0001;
 	private static int _count = 0;
 	private static int _seed = 3331;
 	private int _id;
+	//	private long _key;
 	private geo_location _pos;
 	private double _speed;
 	private edge_data _curr_edge;
@@ -17,6 +20,16 @@ public class CL_Agent {
 	private CL_Pokemon _curr_fruit;
 	private long _sg_dt;
 	private double _value;
+	private List<node_data> path;
+
+	public List<node_data> getPath() {
+		return path;
+	}
+
+	public void setPath(List<node_data> path, node_data n) {
+		this.path = path;
+		path.add(n);
+	}
 
 	public CL_Agent(directed_weighted_graph g, int start_node) {
 		_gg = g;
@@ -26,6 +39,7 @@ public class CL_Agent {
 		_id = -1;
 		setSpeed(0);
 	}
+
 	public void update(String json) {
 		JSONObject line;
 		try {
@@ -52,9 +66,7 @@ public class CL_Agent {
 			e.printStackTrace();
 		}
 	}
-
-
-	public int getSrcNode() { return this._curr_node.getKey(); }
+	public int getSrcNode() {return this._curr_node.getKey();}
 
 	public String toJSON() {
 		int d = this.getNextNode();
@@ -69,15 +81,16 @@ public class CL_Agent {
 				+ "}";
 		return ans;
 	}
-
-	private void setMoney(double v) { _value = v; }
+	private void setMoney(double v) {_value = v;}
 
 	public boolean setNextNode(int dest) {
 		boolean ans = false;
 		int src = this._curr_node.getKey();
 		this._curr_edge = _gg.getEdge(src, dest);
-		if(_curr_edge != null) ans=true;
-		else _curr_edge = null;
+		if(_curr_edge!=null) {
+			ans=true;
+		}
+		//else {_curr_edge = null;}
 		return ans;
 	}
 	public void setCurrNode(int src) {
@@ -110,13 +123,23 @@ public class CL_Agent {
 		return ans;
 	}
 
-	public double getSpeed() { return this._speed; }
+	public double getSpeed() {
+		return this._speed;
+	}
 
-	public void setSpeed(double v) { this._speed = v; }
+	public void setSpeed(double v) {
+		this._speed = v;
+	}
+	public CL_Pokemon get_curr_fruit() {
+		return _curr_fruit;
+	}
+	public void set_curr_fruit(CL_Pokemon curr_fruit) {
+		this._curr_fruit = curr_fruit;
+	}
 
-	public CL_Pokemon get_curr_fruit() { return _curr_fruit; }
-
-	public void set_curr_fruit(CL_Pokemon curr_fruit) { this._curr_fruit = curr_fruit; }
+	public void set_curr_edge(edge_data _curr_edge) {
+		this._curr_edge = _curr_edge;
+	}
 
 	public void set_SDT(long ddtt) {
 		long ddt = ddtt;
@@ -127,7 +150,7 @@ public class CL_Agent {
 			double de = src.distance(dest);
 			double dist = _pos.distance(dest);
 			if(this.get_curr_fruit().get_edge()==this.get_curr_edge()) {
-				 dist = _curr_fruit.getLocation().distance(this._pos);
+				dist = _curr_fruit.getLocation().distance(this._pos);
 			}
 			double norm = dist/de;
 			double dt = w*norm / this.getSpeed();
@@ -136,9 +159,13 @@ public class CL_Agent {
 		this.set_sg_dt(ddt);
 	}
 
-	public edge_data get_curr_edge() { return this._curr_edge; }
-
-	public long get_sg_dt() { return _sg_dt; }
-
-	public void set_sg_dt(long _sg_dt) { this._sg_dt = _sg_dt; }
+	public edge_data get_curr_edge() {
+		return this._curr_edge;
+	}
+	public long get_sg_dt() {
+		return _sg_dt;
+	}
+	public void set_sg_dt(long _sg_dt) {
+		this._sg_dt = _sg_dt;
+	}
 }

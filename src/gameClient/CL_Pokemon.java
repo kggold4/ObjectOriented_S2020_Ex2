@@ -3,6 +3,9 @@ package gameClient;
 import api.*;
 import gameClient.util.Point3D;
 import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class CL_Pokemon {
 	private edge_data _edge;
@@ -11,17 +14,24 @@ public class CL_Pokemon {
 	private Point3D _pos;
 	private double min_dist;
 	private int min_ro;
-	private double _speed;
-
-	public CL_Pokemon(Point3D point, int type, double value, double speed, edge_data e) {
-		this._type = type;
-		this._speed = speed;
-		this._value = value;
+	private CL_Agent nxtEater;
+	private List<CL_Pokemon> closePkm;
+	public CL_Pokemon(Point3D p, int t, double v, double s, edge_data e) {
+		_type = t;
+		//	_speed = s;
+		_value = v;
 		set_edge(e);
-		this._pos = point;
-		this.min_dist = -1;
-		this.min_ro = -1;
+		_pos = p;
+		min_dist = Integer.MAX_VALUE;
+		min_ro = -1;
+		nxtEater= null;
+		closePkm= new ArrayList<>();
 	}
+
+	public List<CL_Pokemon> getClosePkm() {
+		return closePkm;
+	}
+
 	public static CL_Pokemon init_from_json(String json) {
 		CL_Pokemon ans = null;
 		try {
@@ -35,6 +45,7 @@ public class CL_Pokemon {
 		return ans;
 	}
 
+	public String toString() {return "F:{v="+_value+", t="+_type+"}";}
 	public edge_data get_edge() {
 		return _edge;
 	}
@@ -43,14 +54,12 @@ public class CL_Pokemon {
 		this._edge = _edge;
 	}
 
-	public Point3D getLocation() { return _pos; }
 
-	public edge_data getEdge() { return this._edge; }
-
+	public Point3D getLocation() {
+		return _pos;
+	}
 	public int getType() {return _type;}
-
-	public double getSpeed() {return _speed;}
-
+	//	public double getSpeed() {return _speed;}
 	public double getValue() {return _value;}
 
 	public double getMin_dist() {
@@ -61,13 +70,34 @@ public class CL_Pokemon {
 		this.min_dist = mid_dist;
 	}
 
+	public CL_Agent getNxtEater() {
+		return nxtEater;
+	}
+
+	public void setNxtEater(CL_Agent nxtEater) {
+		this.nxtEater = nxtEater;
+	}
+
 	public int getMin_ro() {
 		return min_ro;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CL_Pokemon that = (CL_Pokemon) o;
+		return Double.compare(that._value, _value) == 0 &&
+				_type == that._type &&
+				Objects.equals(_pos, that._pos);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(_value, _type, _pos);
 	}
 
 	public void setMin_ro(int min_ro) {
 		this.min_ro = min_ro;
 	}
-
-	public String toString() {return "F:{v="+_value+", t="+_type+"}";}
 }

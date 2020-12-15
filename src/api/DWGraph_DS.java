@@ -96,10 +96,10 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
         // if src do not have neighbors
         if(srcNeighbors == null) return false;
 
-        // if src are neighbor of dest
+            // if src are neighbor of dest
         else if(srcNeighbors.containsKey(dest)) return true;
 
-        // if src have neighbors but not neighbor of dest
+            // if src have neighbors but not neighbor of dest
         else return false;
     }
 
@@ -138,7 +138,7 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
             appendEC();
             appendMC();
 
-        // src have neighbors but not connected to dest
+            // src have neighbors but not connected to dest
         } else if(!this.hasEdge(src, dest)) {
 
             // create new edge between src and dest nodes
@@ -149,7 +149,7 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
             appendEC();
             appendMC();
 
-        // src and dest are connected
+            // src and dest are connected
         } else {
 
             // if weight != w
@@ -166,7 +166,7 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
                 appendEC();
                 appendMC();
 
-            // if weight == w do nothing
+                // if weight == w do nothing
             } else return;
         }
     }
@@ -181,6 +181,12 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
         if(this.getNode(node_id) == null) return null;
         else if(this.edges.get(node_id) == null) return new ArrayList<>();
         else return this.edges.get(node_id).values();
+    }
+
+    public Collection<edge_data> getE() {
+        List<edge_data> edgesList = new ArrayList<>();
+        for (HashMap<Integer,edge_data> neighbors:this.edges.values()) for (edge_data edge : neighbors.values()) edgesList.add(edge);
+        return edgesList;
     }
 
     // removing node_data from the graph
@@ -204,7 +210,7 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
             appendMC();
             return node;
 
-        // if node have neighbors
+            // if node have neighbors
         } else {
 
             // removing all connection between key node_data and his neighbors
@@ -249,7 +255,7 @@ public class DWGraph_DS implements directed_weighted_graph, Serializable {
             appendMC();
             return edge;
 
-        // if src and dest nodes are not connected
+            // if src and dest nodes are not connected
         } else return null;
     }
 

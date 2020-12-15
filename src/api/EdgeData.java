@@ -18,6 +18,9 @@ public class EdgeData implements edge_data, Serializable {
     // edge tag, use for graph algorithms
     private int tag;
 
+    // if edge is short
+    private Boolean shortEdge;
+
     // EdgeData default constructor
     public EdgeData(node_data src, node_data dest, double weight) {
         this.src = src;
@@ -25,6 +28,7 @@ public class EdgeData implements edge_data, Serializable {
         this.weight = weight;
         this.info = "";
         this.tag = 0;
+        this.shortEdge = false;
     }
 
     // return the key (id) of the src node
@@ -66,6 +70,10 @@ public class EdgeData implements edge_data, Serializable {
     public void setTag(int t) {
         this.tag = t;
     }
+
+    public boolean getShort() { return this.shortEdge; }
+
+    public void setShort(boolean shortEdge) { this.shortEdge = shortEdge; }
 
     @Override
     public String toString() {

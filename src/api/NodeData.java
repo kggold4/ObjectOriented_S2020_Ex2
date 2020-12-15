@@ -24,6 +24,8 @@ public class NodeData implements node_data, Serializable {
     // node_data tag, use for graph algorithms
     private int tag;
 
+    public boolean visible;
+
     // NodeData default constructor
     public NodeData() {
         this.id = ids;
@@ -135,4 +137,8 @@ public class NodeData implements node_data, Serializable {
     // hash code method
     @Override
     public int hashCode() { return Objects.hash(id, location, weight, info); }
+
+    public boolean getVisible() { return this.visible; }
+
+    public void setVisible(boolean visible) { this.visible = visible; }
 }

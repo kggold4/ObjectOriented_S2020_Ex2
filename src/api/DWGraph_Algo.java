@@ -52,7 +52,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         JsonArray edges = graph.get("Edges").getAsJsonArray();
 
         // getting nodes from json file
-        for (com.google.gson.JsonElement node : nodes) {
+        for (JsonElement node : nodes) {
             String[] str_nodes = node.getAsJsonObject().get("pos").getAsString().split(",");
             node_data n = new NodeData(node.getAsJsonObject().get("id").getAsInt());
             n.setLocation(new GEOLocation(Double.parseDouble(str_nodes[0]),
@@ -373,7 +373,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     writer.close();
                     return true;
 
-                // fail to save to a file
+                    // fail to save to a file
                 } catch (FileNotFoundException e) { e.printStackTrace(); }
             }
         }
@@ -405,7 +405,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 JsonArray edges = graph.get("Edges").getAsJsonArray();
 
                 // getting nodes from json file
-                for (com.google.gson.JsonElement node : nodes) {
+                for (JsonElement node : nodes) {
                     String[] str_nodes = node.getAsJsonObject().get("pos").getAsString().split(",");
                     node_data n = new NodeData(node.getAsJsonObject().get("id").getAsInt());
                     n.setLocation(new GEOLocation(Double.parseDouble(str_nodes[0]),
@@ -425,10 +425,78 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 init(this.graph);
                 return true;
 
-            // fail to read object from json file
+                // fail to read object from json file
             } catch (FileNotFoundException e) { e.printStackTrace(); }
         }
         return false;
 
+    }
+
+    public List<List<node_data>> getComponents (){
+        Tarjan t = new Tarjan((DWGraph_DS) this.graph);
+        resetT();
+        return t.getComponents();
+    }
+
+    public void resetT() {
+        for (node_data nd : graph.getV()) {
+            nd.setTag(-1);
+            ((NodeData) nd).setVisible(false);
+        }
+    }
+
+    private class Tarjan {
+        int time;
+        DWGraph_DS g;
+        Stack<NodeData> s;
+        List<List<node_data>> components;
+
+        public Tarjan(DWGraph_DS g){
+            this.g = g;
+            s = new Stack<>();
+            time = 0;
+            components = new ArrayList<>();
+        }
+
+        public List<List<node_data>> tarjan() {
+            for (node_data nds : g.getV()) {
+                if (((NodeData) nds).getVisible() == false)
+                    dfs((NodeData) nds);
+            }
+            return components;
+        }
+        public void dfs (NodeData nds) {
+            nds.setTag(time++);
+            nds.setVisible(true);
+            s.push(nds);
+            boolean isComponentRoot = true;
+            for (edge_data ed : graph.getE(nds.getKey())) {
+                NodeData nei = (NodeData) graph.getNode(ed.getDest());
+                if (nei.getVisible() == false)
+                    dfs(nei);
+                if (nds.getTag()>nei.getTag()){
+                    nds.setTag(nei.getTag());
+                    isComponentRoot=false;
+                }
+            }
+            if (isComponentRoot){
+                List<node_data> component= new ArrayList<>();
+                while (true) {
+                    node_data x= s.pop();
+                    component.add(x);
+                    x.setTag(Integer.MAX_VALUE);
+                    if (x == nds) break;
+                }
+                components.add(component);
+            }
+        }
+        public boolean isConnected() {
+            tarjan();
+            return (this.components.size() == 1);
+        }
+
+        public List<List<node_data>> getComponents() {
+            return this.components;
+        }
     }
 }
