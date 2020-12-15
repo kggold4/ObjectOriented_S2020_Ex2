@@ -9,6 +9,8 @@
 * [Art](#art)
 * [For clone down this repository](#for-clone-down-this-repository)
 
+<img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/vg_logo3.png" width="250" align="center">
+
 This project is for represents a game which is based on the application of a two-way weighted graph with different methods and algorithms,
 In this game we have to manage a group of agents whose goal is to collect as many pokemons as possible through one or more of your pokemon balls before time runs out.
 The more Pokemon you catch, the more points you will earn. The game is played on a changing game board. The game has slightly different scenarios, based on different graphs with different time limits, at different levels. The Pokémon remain static in their places and have different values. One Pokemon can be more expensive than the other. Agents can increase speed if they catch enough Pokemon. The game is played in four stages: choosing the stage of the agents' location to their place of origin. Starting the game Continuous management of the agents until the game is over.
@@ -32,9 +34,9 @@ For the part 2 of this assignment we have the gameClient package for all classes
 also we have the util package with all the classes that represents a vectors points int the arena.
 
 ## Art
-<img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/player.png" width="30">
-<img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball1.png" width="30">
-<img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball2.png" width="30">
+* player in the game (agents): <img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/player.png" width="30">
+* pokemon type 1: <img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball1.png" width="30">
+* pokemon type 2: <img src="https://github.com/kggold4/ObjectOriented_S2020_Ex2/blob/main/images/pokaball2.png" width="30">
 
 ## For clone down this repository
 ```
