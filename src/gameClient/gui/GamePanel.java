@@ -29,7 +29,7 @@ public class GamePanel extends JPanel {
         this.agent = new ImageIcon("./images/player.png").getImage();
         this.pokaball1 = new ImageIcon("./images/pokaball1.png").getImage();
         this.pokaball2 = new ImageIcon("./images/pokaball2.png").getImage();
-        this.background = new ImageIcon("./images/background5.png").getImage();
+        this.background = new ImageIcon("./images/back2.png").getImage();
     }
 
     /**
@@ -100,14 +100,14 @@ public class GamePanel extends JPanel {
 
         Graphics2D g2D = (Graphics2D)graphics;
 
-        g2D.setColor(Color.BLACK);
+        g2D.setColor(Color.WHITE);
         g2D.setFont(new Font(FONT, Font.PLAIN, (this.getHeight() * this.getWidth()) / 40000));
 
         int x0 = this.getWidth() / 70;
         int y0 = this.getHeight() / 20;
 
         // print time left
-        g2D.drawString("Time left: " + String.valueOf(arena.getTime() / 1000), x0 * 30, y0 - 10);
+        g2D.drawString("" + String.valueOf(arena.getTime() / 1000), x0 * 34, y0 + 2);
         g2D.setFont(new Font(FONT, Font.PLAIN, (this.getHeight() * this.getWidth()) / 40000));
 
         int game_level = this.arena.getLevel();
@@ -115,15 +115,15 @@ public class GamePanel extends JPanel {
         int moves = this.arena.getMoves();
 
         // print game level
-        g2D.drawString("Level: " + game_level, x0 * 30, y0 + 30);
+        g2D.drawString("" + game_level, x0 * 22, y0 + 2);
         g2D.setFont(new Font(FONT, Font.PLAIN, (this.getHeight() * this.getWidth()) / 40000));
 
         // print grade
-        g2D.drawString("Grade " + grade, x0 * 30, y0 + 10);
+        g2D.drawString("" + grade, x0 * 44, y0 + 2);
         g2D.setFont(new Font(FONT, Font.PLAIN, (this.getHeight() * this.getWidth()) / 40000));
 
         // print moves
-        g2D.drawString("Moves: " + moves, x0 * 30, y0 + 50);
+        g2D.drawString("" + moves, x0 * 55, y0 + 2);
         g2D.setFont(new Font(FONT, Font.PLAIN, (this.getHeight() * this.getWidth()) / 40000));
     }
 
@@ -150,10 +150,10 @@ public class GamePanel extends JPanel {
         List<CL_Pokemon> pokemons = this.arena.getPokemons();
         if(pokemons != null) {
             for(CL_Pokemon pokemon : pokemons) {
-                Point3D c = pokemon.getLocation();
+                Point3D point = pokemon.getLocation();
                 int r = 9;
-                if(c != null) {
-                    geo_location fp = this._w2f.world2frame(c);
+                if(point != null) {
+                    geo_location fp = this._w2f.world2frame(point);
                     if(pokemon.getType() < 0) G2D.drawImage(this.pokaball1, (int) fp.x() - 3 * r, (int) fp.y() - r, 3 * r, 3 * r, null);
                     else this.G2D.drawImage(this.pokaball2, (int) fp.x() - r + 15, (int) fp.y() - r, 3 * r, 3 * r, null);
                 }
