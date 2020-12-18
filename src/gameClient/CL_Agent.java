@@ -8,14 +8,14 @@ import java.util.List;
 
 public class CL_Agent {
 	private int id;
-	private geo_location _pos;
-	private double _speed;
+	private geo_location pos;
+	private double speed;
 	private edge_data currentEdge;
-	private node_data _curr_node;
-	private directed_weighted_graph _gg;
+	private node_data currNode;
+	private directed_weighted_graph graph;
 	private CL_Pokemon _curr_fruit;
 	private long _sg_dt;
-	private double _value;
+	private double value;
 	private List<node_data> path;
 
 	public List<node_data> getPath() {
@@ -28,10 +28,10 @@ public class CL_Agent {
 	}
 
 	public CL_Agent(directed_weighted_graph g, int start_node) {
-		_gg = g;
+		this.graph = g;
 		setMoney(0);
-		this._curr_node = _gg.getNode(start_node);
-		_pos = _curr_node.getLocation();
+		this.currNode = this.graph.getNode(start_node);
+		this.pos = this.currNode.getLocation();
 		this.id = -1;
 		setSpeed(0);
 	}
@@ -39,7 +39,6 @@ public class CL_Agent {
 	public void update(String json) {
 		JSONObject line;
 		try {
-			// "GameServer":{"graph":"A0","pokemons":3,"agents":1}}
 			line = new JSONObject(json);
 			JSONObject ttt = line.getJSONObject("Agent");
 			int id = ttt.getInt("id");
@@ -51,7 +50,7 @@ public class CL_Agent {
 				int src = ttt.getInt("src");
 				int dest = ttt.getInt("dest");
 				double value = ttt.getDouble("value");
-				this._pos = pp;
+				this.pos = pp;
 				this.setCurrNode(src);
 				this.setSpeed(speed);
 				this.setNextNode(dest);
@@ -62,91 +61,70 @@ public class CL_Agent {
 			e.printStackTrace();
 		}
 	}
-	public int getSrcNode() {return this._curr_node.getKey();}
+	public int getSrcNode() {return this.currNode.getKey();}
 
 	public String toJSON() {
 		int d = this.getNextNode();
 		String ans = "{\"Agent\":{"
 				+ "\"id\":"+this.id+","
-				+ "\"value\":"+this._value+","
-				+ "\"src\":"+this._curr_node.getKey()+","
+				+ "\"value\":"+this.value+","
+				+ "\"src\":"+this.currNode.getKey()+","
 				+ "\"dest\":"+d+","
 				+ "\"speed\":"+this.getSpeed()+","
-				+ "\"pos\":\""+_pos.toString()+"\""
+				+ "\"pos\":\""+this.pos.toString()+"\""
 				+ "}"
 				+ "}";
 		return ans;
 	}
-	private void setMoney(double v) {_value = v;}
+	private void setMoney(double v) {this.value = v;}
 
 	public boolean setNextNode(int dest) {
 		boolean ans = false;
-		int src = this._curr_node.getKey();
-		this.currentEdge = _gg.getEdge(src, dest);
-		if(this.currentEdge != null) {
-			ans=true;
-		}
-		//else {_curr_edge = null;}
+		int src = this.currNode.getKey();
+		this.currentEdge = this.graph.getEdge(src, dest);
+		if(this.currentEdge != null) ans=true;
 		return ans;
 	}
-	public void setCurrNode(int src) {
-		this._curr_node = _gg.getNode(src);
-	}
-	public boolean isMoving() {
-		return this.currentEdge!=null;
-	}
-	public String toString() {
-		return toJSON();
-	}
-	public String toString1() {
-		String ans=""+this.getID()+","+_pos+", "+isMoving()+","+this.getValue();
-		return ans;
-	}
+
+	public void setCurrNode(int src) { this.currNode = this.graph.getNode(src); }
+
+	public boolean isMoving() { return this.currentEdge!=null; }
+
+	public String toString() { return toJSON(); }
+
 	public int getID() { return this.id; }
 
-	public geo_location getLocation() { return _pos; }
+	public geo_location getLocation() { return this.pos; }
 
-
-	public double getValue() { return this._value; }
+	public double getValue() { return this.value; }
 
 	public int getNextNode() {
 		int ans = -2;
-		if(this.currentEdge==null) {
-			ans = -1;}
-		else {
-			ans = this.currentEdge.getDest();
-		}
+		if(this.currentEdge == null) ans = -1;
+		else ans = this.currentEdge.getDest();
 		return ans;
 	}
 
-	public double getSpeed() {
-		return this._speed;
-	}
+	public double getSpeed() { return this.speed; }
 
-	public void setSpeed(double v) {
-		this._speed = v;
-	}
-	public CL_Pokemon get_curr_fruit() {
-		return _curr_fruit;
-	}
-	public void set_curr_fruit(CL_Pokemon curr_fruit) {
-		this._curr_fruit = curr_fruit;
-	}
+	public void setSpeed(double v) { this.speed = v; }
 
-	public void set_curr_edge(edge_data _curr_edge) {
-		this.currentEdge = _curr_edge;
-	}
+	public CL_Pokemon get_curr_fruit() { return _curr_fruit; }
+
+	public void set_curr_fruit(CL_Pokemon curr_fruit) { this._curr_fruit = curr_fruit; }
+
+	public void set_curr_edge(edge_data _curr_edge) { this.currentEdge = _curr_edge; }
 
 	public void set_SDT(long ddtt) {
 		long ddt = ddtt;
 		if(this.currentEdge!=null) {
 			double w = get_curr_edge().getWeight();
-			geo_location dest = _gg.getNode(get_curr_edge().getDest()).getLocation();
-			geo_location src = _gg.getNode(get_curr_edge().getSrc()).getLocation();
+			geo_location dest = this.graph.getNode(get_curr_edge().getDest()).getLocation();
+			geo_location src = this.graph.getNode(get_curr_edge().getSrc()).getLocation();
 			double de = src.distance(dest);
-			double dist = _pos.distance(dest);
+			double dist = this.pos.distance(dest);
 			if(this.get_curr_fruit().get_edge()==this.get_curr_edge()) {
-				dist = _curr_fruit.getLocation().distance(this._pos);
+				dist = _curr_fruit.getLocation().distance(this.pos);
 			}
 			double norm = dist/de;
 			double dt = w*norm / this.getSpeed();
@@ -155,13 +133,7 @@ public class CL_Agent {
 		this.set_sg_dt(ddt);
 	}
 
-	public edge_data get_curr_edge() {
-		return this.currentEdge;
-	}
-	public long get_sg_dt() {
-		return _sg_dt;
-	}
-	public void set_sg_dt(long _sg_dt) {
-		this._sg_dt = _sg_dt;
-	}
+	public edge_data get_curr_edge() { return this.currentEdge; }
+
+	public void set_sg_dt(long _sg_dt) { this._sg_dt = _sg_dt; }
 }

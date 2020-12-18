@@ -429,74 +429,72 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             } catch (FileNotFoundException e) { e.printStackTrace(); }
         }
         return false;
-
     }
 
-    public List<List<node_data>> getComponents (){
-        Tarjan t = new Tarjan((DWGraph_DS) this.graph);
-        resetT();
-        return t.getComponents();
+    /**
+     * get lists of lists of the node in the graph
+     * @return
+     */
+    public List<List<node_data>> getLists (){
+        DFS dfs = new DFS((DWGraph_DS)this.graph);
+        resetTags();
+        return dfs.getLists();
     }
 
-    public void resetT() {
-        for (node_data nd : graph.getV()) {
-            nd.setTag(-1);
-            ((NodeData) nd).setVisible(false);
+    /**
+     * reset all the node's tag to -1, and set visible as false
+     */
+    public void resetTags() {
+        for(node_data node : graph.getV()) {
+            ((NodeData) node).setVisible(false);
+            node.setTag(-1);
         }
     }
 
-    private class Tarjan {
-        int time;
-        DWGraph_DS g;
-        Stack<NodeData> s;
-        List<List<node_data>> components;
+    /**
+     * helpful private class using DFS algorithm
+     */
+    private class DFS {
+        DWGraph_DS current_graph;
+        Stack<NodeData> stack;
+        List<List<node_data>> lists;
 
-        public Tarjan(DWGraph_DS g){
-            this.g = g;
-            s = new Stack<>();
-            time = 0;
-            components = new ArrayList<>();
+        // constructor by given graph
+        public DFS(DWGraph_DS graph) {
+            this.current_graph = graph;
+            this.stack = new Stack<>();
+            this.lists = new ArrayList<>();
         }
 
-        public List<List<node_data>> tarjan() {
-            for (node_data nds : g.getV()) {
-                if (((NodeData) nds).getVisible() == false)
-                    dfs((NodeData) nds);
-            }
-            return components;
+        public List<List<node_data>> dfs() {
+            for(node_data nds : this.current_graph.getV()) if(((NodeData) nds).getVisible() == false) dfs((NodeData)nds);
+            return this.lists;
         }
-        public void dfs (NodeData nds) {
-            nds.setTag(time++);
-            nds.setVisible(true);
-            s.push(nds);
-            boolean isComponentRoot = true;
-            for (edge_data ed : graph.getE(nds.getKey())) {
-                NodeData nei = (NodeData) graph.getNode(ed.getDest());
-                if (nei.getVisible() == false)
-                    dfs(nei);
-                if (nds.getTag()>nei.getTag()){
-                    nds.setTag(nei.getTag());
-                    isComponentRoot=false;
+
+        public void dfs(NodeData node) {
+            node.setVisible(true);
+            stack.push(node);
+            boolean isListRoot = true;
+            for(edge_data edge : graph.getE(node.getKey())) {
+                NodeData neighbor = (NodeData) graph.getNode(edge.getDest());
+                if(neighbor.getVisible() == false) dfs(neighbor);
+                if(node.getTag() > neighbor.getTag()){
+                    node.setTag(neighbor.getTag());
+                    isListRoot = false;
                 }
             }
-            if (isComponentRoot){
-                List<node_data> component= new ArrayList<>();
-                while (true) {
-                    node_data x= s.pop();
-                    component.add(x);
-                    x.setTag(Integer.MAX_VALUE);
-                    if (x == nds) break;
+            if (isListRoot) {
+                List<node_data> component = new ArrayList<>();
+                while(true) {
+                    node_data temp_node = this.stack.pop();
+                    component.add(temp_node);
+                    temp_node.setTag(Integer.MAX_VALUE);
+                    if(temp_node == node) break;
                 }
-                components.add(component);
+                this.lists.add(component);
             }
         }
-        public boolean isConnected() {
-            tarjan();
-            return (this.components.size() == 1);
-        }
 
-        public List<List<node_data>> getComponents() {
-            return this.components;
-        }
+        public List<List<node_data>> getLists() { return this.lists; }
     }
 }

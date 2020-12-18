@@ -138,6 +138,10 @@ public class NodeData implements node_data, Serializable {
     @Override
     public int hashCode() { return Objects.hash(id, location, weight, info); }
 
+    /**
+     * getVisible and setVisible are used in Ex2.java part 2 of the assignment
+     * @return
+     */
     public boolean getVisible() { return this.visible; }
 
     public void setVisible(boolean visible) { this.visible = visible; }
