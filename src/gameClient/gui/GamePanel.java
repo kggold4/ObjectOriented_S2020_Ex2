@@ -12,13 +12,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * this class is the game panel control that show everything in the window while the game is running
+ */
 public class GamePanel extends JPanel {
 
     private Graphics2D G2D;
     private Image agent, pokaball1, pokaball2, background;
     private Arena arena;
     private directed_weighted_graph graph;
-    private gameClient.util.Range2Range _w2f;
+    private gameClient.util.Range2Range W2F;
     private static String FONT = "Arial";
 
     // constructor
@@ -42,7 +45,7 @@ public class GamePanel extends JPanel {
         Range ry = new Range(this.getHeight() - 10, j);
         Range2D frame = new Range2D(rx, ry);
         directed_weighted_graph g = this.arena.getGraph();
-        this._w2f = Arena.w2f(g, frame);
+        this.W2F = Arena.w2f(g, frame);
     }
 
     /**
@@ -68,7 +71,7 @@ public class GamePanel extends JPanel {
      */
     public void drawNode(node_data node, Graphics graphics) {
         geo_location p = node.getLocation();
-        geo_location f = this._w2f.world2frame(p);
+        geo_location f = this.W2F.world2frame(p);
         graphics.fillOval((int) f.x() - 5, (int) f.y() - 5, 2 * 5, 2 * 5);
         graphics.drawString("" + node.getKey(), (int) f.x(), (int) f.y() - 4 * 5);
     }
@@ -136,8 +139,8 @@ public class GamePanel extends JPanel {
     public void drawEdge(edge_data edge, Graphics graphics, directed_weighted_graph graph) {
         geo_location src = graph.getNode(edge.getSrc()).getLocation();
         geo_location dest = graph.getNode(edge.getDest()).getLocation();
-        geo_location s0 = this._w2f.world2frame(src);
-        geo_location d0 = this._w2f.world2frame(dest);
+        geo_location s0 = this.W2F.world2frame(src);
+        geo_location d0 = this.W2F.world2frame(dest);
         graphics.drawLine((int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
     }
 
@@ -153,7 +156,7 @@ public class GamePanel extends JPanel {
                 Point3D point = pokemon.getLocation();
                 int r = 9;
                 if(point != null) {
-                    geo_location fp = this._w2f.world2frame(point);
+                    geo_location fp = this.W2F.world2frame(point);
                     if(pokemon.getType() < 0) G2D.drawImage(this.pokaball1, (int) fp.x() - 3 * r, (int) fp.y() - r, 3 * r, 3 * r, null);
                     else this.G2D.drawImage(this.pokaball2, (int) fp.x() - r + 15, (int) fp.y() - r, 3 * r, 3 * r, null);
                 }
@@ -175,7 +178,7 @@ public class GamePanel extends JPanel {
             int r = 8;
             i++;
             if(location != null) {
-                geo_location fp = this._w2f.world2frame(location);
+                geo_location fp = this.W2F.world2frame(location);
                 this.G2D.drawImage(this.agent, (int) fp.x() - 2 * r, (int) fp.y() - r, 5 * r, 5 * r, null);
             }
         }
