@@ -2,7 +2,5 @@
 Ex2.iml
 out/*
 obj.json
-src/gameClient/Ex2.java
-src/gameClient/Ex2_1.java
 wiki.txt
 .gitignore.txt

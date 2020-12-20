@@ -139,7 +139,7 @@ public class NodeData implements node_data, Serializable {
     public int hashCode() { return Objects.hash(id, location, weight, info); }
 
     /**
-     * getVisible and setVisible are used in Ex2.java part 2 of the assignment
+     * getVisible and setVisible are used in gameClient.Ex2.java part 2 of the assignment
      * @return
      */
     public boolean getVisible() { return this.visible; }
